@@ -27,9 +27,9 @@ BASE_URL = 'http://127.0.0.1:8000'
 SECRET_KEY = 'django-insecure-xs_w$!5xmj-6!gk+(y6n*6j%x^+ay&xz71qjqx*amkp#1i^4s0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['https://rr-ko1d.onrender.com/']
+ALLOWED_HOSTS = ['rr-ko1d.onrender.com/']
 
 # Media
 MEDIA_URL = '/media/'
@@ -87,6 +87,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'rr_project.urls'
