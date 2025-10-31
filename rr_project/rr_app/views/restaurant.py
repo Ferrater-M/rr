@@ -30,31 +30,42 @@ def dashboard_view(request):
 
 @login_required
 def reservation_management_view(request):
-    """Manage user reservations"""
-    reservations = Reservation.objects.filter(user=request.user).order_by('-date')
-    
+    customer, created = Customer.objects.get_or_create(user=request.user)
+    reservations = Reservation.objects.filter(customer=customer).order_by('-date')
+
     if request.method == 'POST':
-        # Handle reservation cancellation
-        reservation_id = request.POST.get('cancel_reservation')
-        if reservation_id:
+        if 'cancel_reservation' in request.POST:
+            reservation_id = request.POST.get('cancel_reservation')
+            reason = request.POST.get('cancellation_reason', '').strip()
+
             try:
-                reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
-                restaurant_name = reservation.restaurant.name
-                reservation.delete()
-                messages.success(request, f'Reservation at {restaurant_name} has been cancelled.')
+                reservation = get_object_or_404(Reservation, id=reservation_id, customer=customer)
+                restaurant_name = reservation.restaurant.name if reservation.restaurant else "Unknown Restaurant"
+                reservation.status = 'CANCELLED'
+                reservation.cancellation_reason = reason
+                reservation.save()
+                messages.success(request, f"Reservation at {restaurant_name} has been cancelled.")
             except Exception:
-                messages.error(request, 'Failed to cancel reservation. Please try again.')
+                messages.error(request, "Failed to cancel reservation. Please try again.")
             return redirect('rr_app:reservation_management')
-    
+
+        elif 'delete_reservation' in request.POST:
+            reservation_id = request.POST.get('delete_reservation')
+            try:
+                reservation = get_object_or_404(Reservation, id=reservation_id, customer=customer)
+                reservation.delete()
+                messages.success(request, "Cancelled reservation has been deleted.")
+            except Exception:
+                messages.error(request, "Failed to delete reservation. Please try again.")
+            return redirect('rr_app:reservation_management')
+
     context = {
         'reservations': reservations,
-        'has_reservations': reservations.exists()
+        'has_reservations': reservations.exists(),
     }
-    
-    if not reservations.exists():
-        messages.info(request, 'You have no reservations yet. Start by exploring restaurants and making your first reservation!')
-    
-    return render(request, 'rr_app/restaurant/reservation_management.html', context)
+    return render(request, 'rr_app/reservation/reservation_list.html', context)
+
+
 
 
 @login_required

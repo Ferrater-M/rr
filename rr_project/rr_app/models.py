@@ -167,11 +167,7 @@ class Reservation(models.Model):
     date = models.DateField()
     time = models.TimeField()
     notes = models.TextField(blank=True, null=True)
-    table_numbers = ArrayField(
-        models.CharField(),
-        blank=True,
-        default=list
-    )
+    table_numbers = ArrayField(models.CharField(), blank=True, default=list)
     status = models.CharField(
         max_length=20,
         choices=[
@@ -189,6 +185,7 @@ class Reservation(models.Model):
         null=True,
         blank=True
     )
+    cancellation_reason = models.TextField(blank=True, null=True)  # 👈 add this
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -197,6 +194,7 @@ class Reservation(models.Model):
     def __str__(self):
         restaurant_name = self.restaurant.name if self.restaurant else 'Unknown Restaurant'
         return f"{self.name} - {self.guest_count} guests at {restaurant_name} on {self.date} at {self.time} [{self.status}]"
+
 
 
 class Review(models.Model):

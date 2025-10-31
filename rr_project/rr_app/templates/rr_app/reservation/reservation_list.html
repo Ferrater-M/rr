@@ -1,0 +1,87 @@
+{% extends "rr_app/restaurant/rr_base.html" %}
+{% load static %}
+
+{% block rr_base_css %}
+<link rel="stylesheet" href="{% static 'rr_app/css/reservation_list.css' %}">
+{% endblock %}
+
+{% block rr_base_content %}
+<div class="reservation-container">
+  <div class="header">
+    <h1>My Reservations</h1>
+  </div>
+
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if has_reservations %}
+  <div class="table-container">
+    <table class="reservation-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Restaurant</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Guests</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reservation in reservations %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ reservation.restaurant.name }}</td>
+          <td>{{ reservation.date }}</td>
+          <td>{{ reservation.time }}</td>
+          <td>{{ reservation.guest_count }}</td>
+          <td>
+            <span class="status-badge {{ reservation.status|lower }}">
+              {{ reservation.status|title }}
+            </span>
+          </td>
+          <td>
+            {% if reservation.status != 'CANCELLED' %}
+            <form method="post" action="">
+              {% csrf_token %}
+              <input type="hidden" name="cancel_reservation" value="{{ reservation.id }}">
+              <input type="hidden" name="cancel_reason" class="cancel-reason-input">
+              <button type="button" class="cancel-btn" onclick="showCancelReason(this)">Cancel</button>
+            </form>
+            {% else %}
+            <span class="cancelled-text">Cancelled</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="no-reservations">You have no reservations yet. Start by exploring restaurants and making your first reservation!</p>
+  {% endif %}
+</div>
+
+<!-- Custom Alert Box (like Django message) -->
+<div id="reasonBox" class="custom-popup hidden">
+  <div class="popup-content">
+    <h3>Cancel Reservation</h3>
+    <p>Please provide a reason for cancellation:</p>
+    <textarea id="cancelReasonInput" placeholder="Type your reason here..."></textarea>
+    <div class="popup-actions">
+      <button class="confirm-cancel-btn" onclick="submitCancel()">Submit</button>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block rr_base_js %}
+<script src="{% static 'rr_app/js/util/reservation.js' %}"></script>
+{% endblock %}

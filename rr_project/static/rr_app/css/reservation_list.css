@@ -1,0 +1,260 @@
+/* ===== Base Layout ===== */
+body {
+  background-color: #f6f7fb;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Container ===== */
+.reservation-container {
+  max-width: 900px;
+  margin: 60px auto;
+  background: white;
+  border-radius: 12px;
+  padding: 30px 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Header ===== */
+.header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== Messages (like "No customer" alert) ===== */
+.messages {
+  margin-bottom: 20px;
+}
+
+.message {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.message.info {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* ===== Table Styling ===== */
+.table-container {
+  overflow-x: auto;
+}
+
+.reservation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.reservation-table th,
+.reservation-table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.reservation-table th {
+  background-color: #f8f9fa;
+  color: #555;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.reservation-table td {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* ===== Status Badges ===== */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ===== Buttons ===== */
+.cancel-btn {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.9rem;
+}
+
+.cancel-btn:hover {
+  background-color: #e55a00;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #b02a37;
+}
+
+.cancelled-text {
+  color: #888;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* ===== No Reservations Section ===== */
+.no-reservations {
+  text-align: center;
+  color: #666;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+/* ===== Custom Popup (Reason Box) ===== */
+.custom-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.custom-popup.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup-content {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: fadeIn 0.25s ease;
+}
+
+.popup-content h3 {
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 600;
+}
+
+.popup-content p {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.popup-content textarea {
+  width: 100%;
+  height: 90px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin: 12px 0;
+  resize: none;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.confirm-cancel-btn {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.confirm-cancel-btn:hover {
+  background-color: #e55a00;
+}
+
+.close-btn {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.close-btn:hover {
+  background-color: #aaa;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
